@@ -13,7 +13,7 @@ import static org.springframework.data.elasticsearch.annotations.FieldIndex.not_
 import static org.springframework.data.elasticsearch.annotations.FieldType.Nested;
 import static org.springframework.data.elasticsearch.annotations.FieldType.String;
 
-@Document(indexName = "blog", type = "article")
+@Document(indexName = "blog", type = "article", shards = 1, replicas = 0, createIndex = false)
 public class Article {
 
     @Id

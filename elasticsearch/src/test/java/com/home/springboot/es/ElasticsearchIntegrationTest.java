@@ -102,7 +102,7 @@ public class ElasticsearchIntegrationTest {
         Assert.assertEquals(newTitle, articleService.findOne(article.getId()).getTitle());
     }
 
-    //    @Test
+//    @Test
     public void givenFullTitle_whenQueryOnVerbatimField_thenDocIsFound() {
         SearchQuery searchQuery = new NativeSearchQueryBuilder()
                 .withQuery(QueryBuilders.matchQuery("title.verbatim", "Search engine"))
@@ -111,8 +111,7 @@ public class ElasticsearchIntegrationTest {
         List<Article> articles = elasticsearchTemplate.queryForList(searchQuery, Article.class);
         Assert.assertEquals(1l, articles.size());
         searchQuery = new NativeSearchQueryBuilder()
-                .withQuery(QueryBuilders.matchQuery("title.verbatim" +
-                        "", "Search"))
+                .withQuery(QueryBuilders.matchQuery("title.verbatim", "Search"))
                 .build();
         articles = elasticsearchTemplate.queryForList(searchQuery, Article.class);
         Assert.assertEquals(0l, articles.size());

@@ -10,17 +10,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
 
 @RestController
 @SpringBootApplication
-//@EnableElasticsearchRepositories(basePackages = {"com.home.springboot.repository"})
+@EnableElasticsearchRepositories(basePackages = {"com.home.springboot.repository"})
 public class ElasticsearchController {
     @Autowired
     private ElasticsearchTemplate elasticsearchTemplate;
@@ -33,31 +30,39 @@ public class ElasticsearchController {
     }
 
     @RequestMapping(value = "/article/create", method = RequestMethod.POST)
+    @ResponseBody
     public Article addArticle() {
         Article article = new Article("Be smart");
         article.setTags(new String[]{"inspiration"});
-        article.setAuthors(Arrays.asList(new Author("Roman")));
-        Article savedArticle = articleService.save(article);
-        return savedArticle;
+        final Author roman = new Author("Roman");
+        roman.setId("1");
+        article.setAuthors(Arrays.asList(roman));
+        elasticsearchTemplate.createIndex(Article.class);
+        article = articleService.save(article);
+        return article;
     }
 
     @RequestMapping("/article/{author}")
-    List<Article> getArticle(@PathVariable("author") final String author) {
-        return this.articleService.findByAuthorName(author, new PageRequest(0,10))
-                .getContent();
+    @ResponseBody
+    public List<Article> getArticle(@PathVariable("author") final String author) throws Exception {
+        if (elasticsearchTemplate.indexExists(Article.class)) {
+            return this.articleService.findByAuthorName(author, new PageRequest(0, 5)).getContent();
+        }
+        throw new Exception("Index for " + Article.class.getCanonicalName() + " not exist");
     }
 
     @RequestMapping("/article/{author}/title")
-    String getTitleByAuthor(@PathVariable("author") final String author) {
-        List<Article> articleList = this.articleService.findByAuthorName(author, new PageRequest(0, 1))
-                .getContent();
-        if (!articleList.isEmpty()) {
-            return articleList.get(0).getTitle();
+    @ResponseBody
+    public String getTitleByAuthor(@PathVariable("author") final String author) {
+        List<Article> articles = this.articleService.findByAuthorName(author, new PageRequest(0, 5)).getContent();
+        if (!articles.isEmpty()) {
+            return articles.get(0).getTitle();
         }
-        return "No articles of this author";
+        return "No articles by author: " + author;
     }
 
     public static void main(String[] args) {
         SpringApplication.run(ElasticsearchController.class, args);
+
     }
 }
