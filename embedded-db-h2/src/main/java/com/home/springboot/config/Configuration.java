@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 
 @org.springframework.context.annotation.Configuration
 public class Configuration {
-
     @Bean
     public TomcatEmbeddedServletContainerFactory tomcatEmbeddedServletContainerFactory() {
         TomcatEmbeddedServletContainerFactory servletContainerFactory = new TomcatEmbeddedServletContainerFactory();

@@ -8,4 +8,6 @@ public interface PlayerRepository extends Repository<Player, Long> {
     Player findByName(String name);
 
     Player save(Player player);
+
+    long count();
 }

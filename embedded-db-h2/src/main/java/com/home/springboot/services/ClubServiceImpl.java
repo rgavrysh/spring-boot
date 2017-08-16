@@ -15,4 +15,9 @@ public class ClubServiceImpl implements ClubService {
     public Club getClub(String name) {
         return this.clubRepository.findByName(name);
     }
+
+    @Override
+    public long getTotalNumberOfClubs() {
+        return this.clubRepository.count();
+    }
 }

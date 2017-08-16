@@ -22,4 +22,9 @@ public class PlayerServiceImpl implements PlayerService {
     public Player addPlayer(Player player) {
         return this.playerRepository.save(player);
     }
+
+    @Override
+    public long getTotalNumberOfPlayers() {
+        return this.playerRepository.count();
+    }
 }

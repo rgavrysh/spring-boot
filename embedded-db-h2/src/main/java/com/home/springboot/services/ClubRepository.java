@@ -5,4 +5,6 @@ import org.springframework.data.repository.Repository;
 
 public interface ClubRepository extends Repository<Club, Long> {
     Club findByName(String name);
+
+    long count();
 }
