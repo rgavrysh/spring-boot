@@ -1,0 +1,1 @@
+# PostgreSQL and ElasticSearh as two services for storage and searching respectively
