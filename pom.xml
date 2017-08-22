@@ -52,6 +52,7 @@
         <module>embedded-db-h2</module>
         <module>embedded-mongodb</module>
         <module>elasticsearch</module>
+        <module>psql-elastic</module>
     </modules>
 
 </project>

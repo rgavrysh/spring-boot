@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employees</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+     $(function() {
+            function log( message ) {
+            $("<div>").text( JSON.stringify(message) ).prependTo( "#result" );
+      $( "#result" ).scrollTop( 0 );
+    }
+
+    $( "#employee" ).autocomplete({
+      source: function( request, response ) {
+        $.ajax( {
+          url: "http://localhost:8080/name/" + request.term,
+          success: function( data ) {
+            console.log(data);
+            var names = data.map(function(e){return e.name;})
+            console.log(names);
+            response( $.map(data, function(item){
+                return {
+                    label: item.name,
+                    value: item
+                }
+            }) );
+          }
+        } );
+      },
+      minLength: 2,
+      select: function( event, ui ) {
+        log( ui.item.value);
+        ui.item.value = ui.item.value.name;
+      }
+    } );
+  } );
+</script>
+</head>
+<body>
+<h2>Company</h2>
+<h4>Find employee:</h4>
+<div class="ui-widget">
+    <label for="employee">Employee:</label>
+    <input id="employee">
+</div>
+
+<div class="ui-widget">
+    Result:
+    <div id="result" style="height: 200px; width: 300px; overflow: auto;" class="ui-widget-content"></div>
+</div>
+</body>
+</html>
