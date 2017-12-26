@@ -24,6 +24,12 @@
             <artifactId>h2</artifactId>
             <version>1.4.193</version>
         </dependency>
+
+        <!--ACTUATOR-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
