@@ -25,6 +25,13 @@
             <version>1.4.193</version>
         </dependency>
 
+        <!--HIBERNATE SEARCH-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search-orm</artifactId>
+            <version>5.6.1.Final</version>
+        </dependency>
+
         <!--ACTUATOR-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
